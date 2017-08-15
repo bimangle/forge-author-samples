@@ -1,3 +1,8 @@
+
+[简体中文版本点这里](README-CHS.md)
+
+----
+
 # forge-author-samples
 Demonstrate how to use ForgeAuthor manipulate Autodesk Forge Svf model.
 
@@ -5,7 +10,7 @@ Demonstrate how to use ForgeAuthor manipulate Autodesk Forge Svf model.
 
 Inspector can read, display, modify, export and other operations on attribute data of Autodesk Forge Svf offline model.
 
-![](docs/images/inspector1.png) 
+![Inspector Snapshot](docs/images/inspector1.png) 
 
 
 ### Demo 2# - Merger (coming soon)

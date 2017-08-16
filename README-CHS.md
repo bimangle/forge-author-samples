@@ -27,7 +27,7 @@ Differ 演示了如何对同一个模型的不同版本执行比较操作，然�
 
 # ForgeAuthor 是什么?
 
-ForgeAuthor 是一个基于 .NET Framework 4.5 开发的类库, 它以面向对象的接口为您提供可以操作 Audesk Forge Svf 理线模型的 API, 就像我们读写 XML 或 JSON 数据那么简单.
+ForgeAuthor 是一个基于 .NET Framework 4.5 开发的类库, 它以面向对象的接口为您提供可以操作 Audesk Forge Svf 离线模型的 API, 就像我们读写 XML 或 JSON 数据那么简单.
 
 ForgeAuthor 包含两个主要组件: SvfDatabase 和 SvfDocument。
 

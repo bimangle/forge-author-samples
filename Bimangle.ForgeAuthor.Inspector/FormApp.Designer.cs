@@ -51,10 +51,10 @@
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiLicenseStatus = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiGithub = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.sfdExportToJson = new System.Windows.Forms.SaveFileDialog();
-            this.tsmiGithub = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -287,6 +287,13 @@
             this.tsmiLicenseStatus.Text = "&License Status";
             this.tsmiLicenseStatus.Click += new System.EventHandler(this.tsmiLicenseStatus_Click);
             // 
+            // tsmiGithub
+            // 
+            this.tsmiGithub.Name = "tsmiGithub";
+            this.tsmiGithub.Size = new System.Drawing.Size(247, 22);
+            this.tsmiGithub.Text = "&Github Source Code";
+            this.tsmiGithub.Click += new System.EventHandler(this.tsmiGithub_Click);
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
@@ -304,13 +311,6 @@
             this.sfdExportToJson.DefaultExt = "json";
             this.sfdExportToJson.Filter = "JSON File|*.json|All File|*.*";
             this.sfdExportToJson.Title = "Export To JSON";
-            // 
-            // tsmiGithub
-            // 
-            this.tsmiGithub.Name = "tsmiGithub";
-            this.tsmiGithub.Size = new System.Drawing.Size(247, 22);
-            this.tsmiGithub.Text = "Github Source Code";
-            this.tsmiGithub.Click += new System.EventHandler(this.tsmiGithub_Click);
             // 
             // FormApp
             // 

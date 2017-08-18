@@ -13,9 +13,13 @@ Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执�
 ![Inspector Snapshot](docs/images/inspector1.png) 
 
 
-### 演示 2# - Merger (即将完成)
+### 演示 2# - Merger (完成)
 
 Merger 演示了如何执行合模操作，即将多个 Autodesk Forge Svf 离线模型合并为一个.
+
+![Merger Snapshot](docs/images/merger1.png) 
+
+![Merger Snapshot](docs/images/merger2.png) 
 
 ### 演示 3# - Differ (即将完成)
 

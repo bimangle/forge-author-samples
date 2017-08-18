@@ -13,9 +13,14 @@ Inspector can read, display, modify, export and other operations on attribute da
 ![Inspector Snapshot](docs/images/inspector1.png) 
 
 
-### Demo 2# - Merger (coming soon)
+### Demo 2# - Merger (ready)
 
 Merger can merge multiple Autodesk Forge Svf offline models to one.
+
+![Merger Snapshot](docs/images/merger1.png) 
+
+![Merger Snapshot](docs/images/merger2.png) 
+
 
 ### Demo 3# - Differ (coming soon)
 

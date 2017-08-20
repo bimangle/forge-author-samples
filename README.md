@@ -8,12 +8,16 @@ Demonstrate how to use ForgeAuthor manipulate Autodesk Forge Svf model.
 
 ### Demo 1# - Inspector (ready)
 
+[Binary Download](http://pan.baidu.com/s/1sl6YdB3)
+
 Inspector can read, display, modify, export and other operations on attribute data of Autodesk Forge Svf offline model.
 
 ![Inspector Snapshot](docs/images/inspector1.png) 
 
 
 ### Demo 2# - Merger (ready)
+
+[Binary Download](http://pan.baidu.com/s/1jIwwWUM)
 
 Merger can merge multiple Autodesk Forge Svf offline models to one.
 

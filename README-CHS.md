@@ -8,12 +8,16 @@
 
 ### 演示 1# - Inspector (完成)
 
+[已编译版本下载](http://pan.baidu.com/s/1sl6YdB3)
+
 Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执行读取、显示、编辑、导出等操作；
 
 ![Inspector Snapshot](docs/images/inspector1.png) 
 
 
 ### 演示 2# - Merger (完成)
+
+[已编译版本下载](http://pan.baidu.com/s/1jIwwWUM)
 
 Merger 演示了如何执行合模操作，即将多个 Autodesk Forge Svf 离线模型合并为一个.
 

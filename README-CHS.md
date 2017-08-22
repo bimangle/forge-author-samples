@@ -8,7 +8,7 @@
 
 ### 演示 1# - Inspector (完成)
 
-[已编译版本下载](http://pan.baidu.com/s/1sl6YdB3)
+[已编译版本下载 (更新时间: 2017-08-20)](http://pan.baidu.com/s/1sl6YdB3)
 
 Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执行读取、显示、编辑、导出等操作；
 
@@ -17,7 +17,7 @@ Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执�
 
 ### 演示 2# - Merger (完成)
 
-[已编译版本下载](http://pan.baidu.com/s/1jIwwWUM)
+[已编译版本下载 (更新时间: 2017-08-20)](http://pan.baidu.com/s/1jIwwWUM)
 
 Merger 演示了如何执行合模操作，即将多个 Autodesk Forge Svf 离线模型合并为一个.
 
@@ -25,9 +25,17 @@ Merger 演示了如何执行合模操作，即将多个 Autodesk Forge Svf 离�
 
 ![Merger Snapshot](docs/images/merger2.png) 
 
-### 演示 3# - Differ (即将完成)
+### 演示 3# - Differ (完成)
+
+[已编译版本下载 (更新时间: 2017-08-22)](http://pan.baidu.com/s/1c2D4sbI)
 
 Differ 演示了如何对同一个模型的不同版本执行比较操作，然后将差异部分另存为一个差异模型，这个差异模型用不同的颜色表达增加、删除和修改状态的构件.
+
+>建议浏览差异模型时, 关掉“环境遮挡阴影”和“地面阴影”特性，从而获得最优视觉效果
+
+![Differ Snapshot](docs/images/differ1.png) 
+
+![Differ Snapshot](docs/images/differ2.png) 
 
 ### 更多的演示例子会不断加入 ...
 

@@ -24,7 +24,6 @@ namespace Bimangle.ForgeAuthor.Merger
         private void FormApp_Load(object sender, EventArgs e)
         {
             Icon = Properties.Resources.app;
-            //svfModelBindingSource.DataSource = new List<Types.SvfModel>();
         }
 
         private void btnBrowseOutput_Click(object sender, EventArgs e)
@@ -53,7 +52,6 @@ namespace Bimangle.ForgeAuthor.Merger
             sb.AppendLine($@"ClientName:   {LicenseService.ClientName}");
 
             MessageBox.Show(this, sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
 
         private void githubSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,7 +115,7 @@ namespace Bimangle.ForgeAuthor.Merger
                 return;
             }
 
-            using (new ProgressHelper("Merging ..."))
+            using (new ProgressHelper(@"Merging ..."))
             {
                 try
                 {
@@ -126,7 +124,7 @@ namespace Bimangle.ForgeAuthor.Merger
                     var docs = new List<SvfDocument>();
                     foreach (var model in models)
                     {
-                        var doc = model.ModelPath.EndsWith("zip") 
+                        var doc = model.ModelPath.EndsWith(@"zip") 
                             ? SvfDocument.LoadFromZipFile(model.ModelPath) 
                             : SvfDocument.LoadFromSvfFile(model.ModelPath);
                         doc.Model.Name = model.ModelTitle;

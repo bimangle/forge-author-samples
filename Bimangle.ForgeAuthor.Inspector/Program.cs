@@ -36,9 +36,8 @@ namespace Bimangle.ForgeAuthor.Inspector
             {
                 var dialog = new OpenFileDialog();
                 dialog.CheckPathExists = true;
-                dialog.DefaultExt = ".svf";
                 dialog.Title = @"Select Svf Model File";
-                dialog.Filter = @"Autodesk Forge 3D Model|*.svf|All Files|*.*";
+                dialog.Filter = @"Autodesk Forge 3D Model|*.svf;*.svfzip|All Files|*.*";
                 dialog.Multiselect = false;
                 if (dialog.ShowDialog() != DialogResult.OK) return;
 
@@ -47,9 +46,11 @@ namespace Bimangle.ForgeAuthor.Inspector
 
             try
             {
-                using (new ProgressHelper("Loading ..."))
+                using (new ProgressHelper(@"Loading ..."))
                 {
-                    var svf = SvfDatabase.LoadFromSvfFile(filePath);
+                    var svf = filePath.EndsWith(@"zip")
+                        ? SvfDatabase.LoadFromZipFile(filePath)
+                        : SvfDatabase.LoadFromSvfFile(filePath);
                     Application.Run(new FormApp(svf, filePath));
                 }
             }

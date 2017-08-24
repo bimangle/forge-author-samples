@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvSourceModels = new System.Windows.Forms.DataGridView();
+            this.modelTitleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.modelPathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.svfModelBindingSource = new System.Windows.Forms.BindingSource();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnBrowseOutput = new System.Windows.Forms.Button();
             this.txtOutput = new System.Windows.Forms.TextBox();
@@ -44,14 +46,11 @@
             this.githubSourceCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutForgeAuthorMergerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modelTitleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.modelPathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.svfModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSourceModels)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.svfModelBindingSource)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.menuMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.svfModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -98,6 +97,29 @@
             this.dgvSourceModels.RowTemplate.Height = 23;
             this.dgvSourceModels.Size = new System.Drawing.Size(558, 124);
             this.dgvSourceModels.TabIndex = 0;
+            // 
+            // modelTitleDataGridViewTextBoxColumn
+            // 
+            this.modelTitleDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.modelTitleDataGridViewTextBoxColumn.DataPropertyName = "ModelTitle";
+            this.modelTitleDataGridViewTextBoxColumn.HeaderText = "Model Title";
+            this.modelTitleDataGridViewTextBoxColumn.MinimumWidth = 120;
+            this.modelTitleDataGridViewTextBoxColumn.Name = "modelTitleDataGridViewTextBoxColumn";
+            this.modelTitleDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // modelPathDataGridViewTextBoxColumn
+            // 
+            this.modelPathDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.modelPathDataGridViewTextBoxColumn.DataPropertyName = "ModelPath";
+            this.modelPathDataGridViewTextBoxColumn.HeaderText = "Svf Model File Path";
+            this.modelPathDataGridViewTextBoxColumn.MinimumWidth = 150;
+            this.modelPathDataGridViewTextBoxColumn.Name = "modelPathDataGridViewTextBoxColumn";
+            this.modelPathDataGridViewTextBoxColumn.ReadOnly = true;
+            this.modelPathDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // svfModelBindingSource
+            // 
+            this.svfModelBindingSource.DataSource = typeof(Bimangle.ForgeAuthor.Merger.Types.SvfModel);
             // 
             // groupBox2
             // 
@@ -203,29 +225,6 @@
             this.aboutForgeAuthorMergerToolStripMenuItem.Text = "About ForgeAuthor Merger";
             this.aboutForgeAuthorMergerToolStripMenuItem.Click += new System.EventHandler(this.aboutForgeAuthorMergerToolStripMenuItem_Click);
             // 
-            // modelTitleDataGridViewTextBoxColumn
-            // 
-            this.modelTitleDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.modelTitleDataGridViewTextBoxColumn.DataPropertyName = "ModelTitle";
-            this.modelTitleDataGridViewTextBoxColumn.HeaderText = "Model Title";
-            this.modelTitleDataGridViewTextBoxColumn.MinimumWidth = 120;
-            this.modelTitleDataGridViewTextBoxColumn.Name = "modelTitleDataGridViewTextBoxColumn";
-            this.modelTitleDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // modelPathDataGridViewTextBoxColumn
-            // 
-            this.modelPathDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.modelPathDataGridViewTextBoxColumn.DataPropertyName = "ModelPath";
-            this.modelPathDataGridViewTextBoxColumn.HeaderText = "Svf Model File Path";
-            this.modelPathDataGridViewTextBoxColumn.MinimumWidth = 150;
-            this.modelPathDataGridViewTextBoxColumn.Name = "modelPathDataGridViewTextBoxColumn";
-            this.modelPathDataGridViewTextBoxColumn.ReadOnly = true;
-            this.modelPathDataGridViewTextBoxColumn.Width = 150;
-            // 
-            // svfModelBindingSource
-            // 
-            this.svfModelBindingSource.DataSource = typeof(Bimangle.ForgeAuthor.Merger.Types.SvfModel);
-            // 
             // FormApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -237,15 +236,15 @@
             this.Controls.Add(this.menuMain);
             this.MainMenuStrip = this.menuMain;
             this.Name = "FormApp";
-            this.Text = "ForgeAuthor Merger v1.0";
+            this.Text = "ForgeAuthor Merger v1.0.5";
             this.Load += new System.EventHandler(this.FormApp_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSourceModels)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.svfModelBindingSource)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.svfModelBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

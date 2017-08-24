@@ -242,7 +242,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuMain);
             this.Name = "FormApp";
-            this.Text = "ForgeAuthor Differ v1.0";
+            this.Text = "ForgeAuthor Differ v1.0.5";
             this.Load += new System.EventHandler(this.FormApp_Load);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();

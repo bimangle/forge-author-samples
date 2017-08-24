@@ -321,7 +321,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormApp";
-            this.Text = "ForgeAuthor Inspector";
+            this.Text = "ForgeAuthor Inspector v1.0.5";
             this.Load += new System.EventHandler(this.FormApp_Load);
             this.Shown += new System.EventHandler(this.FormApp_Shown);
             this.splitContainer1.Panel1.ResumeLayout(false);

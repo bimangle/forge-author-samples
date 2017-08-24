@@ -8,7 +8,7 @@ Demonstrate how to use ForgeAuthor manipulate Autodesk Forge Svf model.
 
 ### Demo 1# - Inspector (ready)
 
-[Binary Download (Update: August 20, 2017)](http://pan.baidu.com/s/1sl6YdB3)
+[Binary Download (Update: August 24, 2017)](http://pan.baidu.com/s/1hsgSpwS)
 
 Inspector can read, display, modify, export and other operations on attribute data of Autodesk Forge Svf offline model.
 
@@ -17,7 +17,7 @@ Inspector can read, display, modify, export and other operations on attribute da
 
 ### Demo 2# - Merger (ready)
 
-[Binary Download (Update: August 20, 2017)](http://pan.baidu.com/s/1jIwwWUM)
+[Binary Download (Update: August 24, 2017)](http://pan.baidu.com/s/1i5nBN9r)
 
 Merger can merge multiple Autodesk Forge Svf offline models to one.
 
@@ -28,7 +28,7 @@ Merger can merge multiple Autodesk Forge Svf offline models to one.
 
 ### Demo 3# - Differ (ready)
 
-[Binary Download (Update: August 22, 2017)](http://pan.baidu.com/s/1c2D4sbI)
+[Binary Download (Update: August 24, 2017)](http://pan.baidu.com/s/1qYsNpaG)
 
 
 Differ can compare different versions of the same model, recognize the difference component, generate the diff model, and use different colors to identify the components that are added, deleted, and modified.

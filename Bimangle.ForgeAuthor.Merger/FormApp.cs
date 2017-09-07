@@ -24,6 +24,7 @@ namespace Bimangle.ForgeAuthor.Merger
         private void FormApp_Load(object sender, EventArgs e)
         {
             Icon = Properties.Resources.app;
+            Text += @" v" + PackageInfo.ProductVersion;
         }
 
         private void btnBrowseOutput_Click(object sender, EventArgs e)
@@ -41,17 +42,7 @@ namespace Bimangle.ForgeAuthor.Merger
 
         private void licenseStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine(@"Bimangle.ForgeAuthor SDK License Status:");
-            sb.AppendLine($@"ReleaseDate:  {PackageInfo.ReleaseDate:yyyy-MM-dd}");
-            sb.AppendLine($@"Subscription: {LicenseService.SubscriptionExpiration:yyyy-MM-dd}");
-            sb.AppendLine($@"IsActivated:       {LicenseService.IsActivated}");
-            sb.AppendLine($@"LicenseStatus:     {LicenseService.LicenseStatus}");
-            sb.AppendLine($@"LicenseExpiration: {LicenseService.LicenseExpiration:yyyy-MM-dd}");
-            sb.AppendLine($@"HardwareId:   {LicenseService.HardwareId}");
-            sb.AppendLine($@"ClientName:   {LicenseService.ClientName}");
-
-            MessageBox.Show(this, sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LicenseSession.ShowLicenseDialog(this);
         }
 
         private void githubSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -115,48 +106,57 @@ namespace Bimangle.ForgeAuthor.Merger
                 return;
             }
 
-            using (new ProgressHelper(@"Merging ..."))
+            using (var session = new LicenseSession())
             {
-                try
+                if (session.IsValid == false)
                 {
-                    var sw = Stopwatch.StartNew();
-                    var targetDoc = new SvfDocument();
-                    var docs = new List<SvfDocument>();
-                    foreach (var model in models)
+                    LicenseSession.ShowLicenseDialog(this);
+                    return;
+                }
+
+                using (new ProgressHelper(this, @"Merging ..."))
+                {
+                    try
                     {
-                        var doc = model.ModelPath.EndsWith(@"zip") 
-                            ? SvfDocument.LoadFromZipFile(model.ModelPath) 
-                            : SvfDocument.LoadFromSvfFile(model.ModelPath);
-                        doc.Model.Name = model.ModelTitle;
-
-                        targetDoc.Model.Children.ImportNode(doc.Model);
-
-                        if (targetDoc.Metadata?.DefaultCamera == null)
+                        var sw = Stopwatch.StartNew();
+                        var targetDoc = new SvfDocument();
+                        var docs = new List<SvfDocument>();
+                        foreach (var model in models)
                         {
-                            targetDoc.Metadata = doc.Metadata.Clone();
+                            var doc = model.ModelPath.EndsWith(@"zip")
+                                ? SvfDocument.LoadFromZipFile(model.ModelPath)
+                                : SvfDocument.LoadFromSvfFile(model.ModelPath);
+                            doc.Model.Name = model.ModelTitle;
+
+                            targetDoc.Model.Children.ImportNode(doc.Model);
+
+                            if (targetDoc.Metadata?.DefaultCamera == null)
+                            {
+                                targetDoc.Metadata = doc.Metadata.Clone();
+                            }
+
+                            doc.Reset();
+                            docs.Add(doc);
                         }
 
-                        doc.Reset();
-                        docs.Add(doc);
+                        targetDoc.SaveToFolder(txtOutput.Text, true);
+                        targetDoc.Dispose();
+
+                        foreach (var doc in docs)
+                        {
+                            doc.Dispose();
+                        }
+                        docs.Clear();
+
+                        ProgressHelper.Close();
+                        var message = $@"Merge Success! (duration: {sw.Elapsed})";
+                        MessageBox.Show(this, message, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    targetDoc.SaveToFolder(txtOutput.Text, true);
-                    targetDoc.Dispose();
-
-                    foreach (var doc in docs)
+                    catch (Exception ex)
                     {
-                        doc.Dispose();
+                        ProgressHelper.Close();
+                        MessageBox.Show(this, ex.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    docs.Clear();
-
-                    ProgressHelper.Close();
-                    var message = $@"Merge Success! (duration: {sw.Elapsed})";
-                    MessageBox.Show(this, message, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    ProgressHelper.Close();
-                    MessageBox.Show(this, ex.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

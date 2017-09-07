@@ -26,23 +26,14 @@ namespace Bimangle.ForgeAuthor.Differ
         private void FormApp_Load(object sender, EventArgs e)
         {
             Icon = Properties.Resources.app;
+            Text += @" v" + PackageInfo.ProductVersion;
 
             RefreshState();
         }
 
         private void licenseStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine(@"Bimangle.ForgeAuthor SDK License Status:");
-            sb.AppendLine($@"ReleaseDate:  {PackageInfo.ReleaseDate:yyyy-MM-dd}");
-            sb.AppendLine($@"Subscription: {LicenseService.SubscriptionExpiration:yyyy-MM-dd}");
-            sb.AppendLine($@"IsActivated:       {LicenseService.IsActivated}");
-            sb.AppendLine($@"LicenseStatus:     {LicenseService.LicenseStatus}");
-            sb.AppendLine($@"LicenseExpiration: {LicenseService.LicenseExpiration:yyyy-MM-dd}");
-            sb.AppendLine($@"HardwareId:   {LicenseService.HardwareId}");
-            sb.AppendLine($@"ClientName:   {LicenseService.ClientName}");
-
-            MessageBox.Show(this, sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LicenseSession.ShowLicenseDialog(this);
         }
 
         private void githubSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -82,131 +73,140 @@ namespace Bimangle.ForgeAuthor.Differ
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            using (new ProgressHelper(@"Generating Diff Model ..."))
+            using (var session = new LicenseSession())
             {
-                try
+                if (session.IsValid == false)
                 {
-                    var sw = Stopwatch.StartNew();
-
-                    #region setup materials
-
-                    var matUnmodified = new Material
-                    {
-                        Color = Vector3D.FromColor(0xffffff), //Darker: Vector3D.FromColor(0x101010)
-                        Transparent = 0.95,
-                        Reflectivity = 0
-                    };
-
-                    var matAdd = new Material
-                    {
-                        Color = Vector3D.FromColor(Color.GreenYellow)
-                    };
-
-                    var matDelete = new Material
-                    {
-                        Color = Vector3D.FromColor(Color.Red)
-                    };
-
-                    var matModifiedBefore = new Material
-                    {
-                        Color = Vector3D.FromColor(Color.Orange),
-                        Transparent = 0.5
-                    };
-
-                    var matModifiedAfter = new Material
-                    {
-                        Color = Vector3D.FromColor(Color.Aqua),
-                    };
-
-                    #endregion
-
-                    var baseModelPath = txtBaseModel.Text;
-                    var incrModelPath = txtIncrementModel.Text;
-                    var diffModelPath = txtDiffModel.Text;
-
-                    var svfbase = baseModelPath.EndsWith(@"zip")
-                        ? SvfDocument.LoadFromZipFile(baseModelPath)
-                        : SvfDocument.LoadFromSvfFile(baseModelPath);
-
-                    var svfincr = incrModelPath.EndsWith(@"zip")
-                        ? SvfDocument.LoadFromZipFile(incrModelPath)
-                        : SvfDocument.LoadFromSvfFile(incrModelPath);
-
-                    var compareResult = CompareModel(svfbase, svfincr);
-
-                    var svfdiff = new SvfDocument();
-                    svfdiff.Model.Name = @"Diff Model";
-                    svfdiff.Metadata = svfbase.Metadata;
-
-                    var nodeUnmodified = svfdiff.Model.Children.CreateNode();
-                    nodeUnmodified.Name = @"Unmodified";
-
-                    var nodeAdded = svfdiff.Model.Children.CreateNode();
-                    nodeAdded.Name = @"Added";
-
-                    var nodeDeleted = svfdiff.Model.Children.CreateNode();
-                    nodeDeleted.Name = @"Deleted";
-
-                    var nodeModifiedBefore = svfdiff.Model.Children.CreateNode();
-                    nodeModifiedBefore.Name = @"Modified Before";
-
-                    var nodeModifiedAfter = svfdiff.Model.Children.CreateNode();
-                    nodeModifiedAfter.Name = @"Modified After";
-
-                    svfbase.EnumerateNodes(node =>
-                    {
-                        if (node.Children?.Count == 0 &&
-                            node.Fragments?.Count > 0 &&
-                            string.IsNullOrEmpty(node.ExternalId) == false)
-                        {
-                            if (compareResult.Unmodified.Remove(node.ExternalId))
-                            {
-                                ImportNodeWithPath(nodeUnmodified, node, svfbase.Model, matUnmodified);
-                            }
-                            else if (compareResult.Deleted.Remove(node.ExternalId))
-                            {
-                                ImportNodeWithPath(nodeDeleted, node, svfbase.Model, matDelete);
-                            }
-                            else if (compareResult.Modified.Contains(node.ExternalId))
-                            {
-                                var targetNode =
-                                    ImportNodeWithPath(nodeModifiedBefore, node, svfbase.Model, matModifiedBefore);
-                                targetNode.ExternalId += @"_Before";
-                            }
-                        }
-                    }, svfbase.Model);
-
-                    svfincr.EnumerateNodes(node =>
-                    {
-                        if (node.Children?.Count == 0 &&
-                            node.Fragments?.Count > 0 &&
-                            string.IsNullOrEmpty(node.ExternalId) == false)
-                        {
-                            if (compareResult.Added.Remove(node.ExternalId))
-                            {
-                                ImportNodeWithPath(nodeAdded, node, svfincr.Model, matAdd);
-                            }
-                            else if (compareResult.Modified.Remove(node.ExternalId))
-                            {
-                                ImportNodeWithPath(nodeModifiedAfter, node, svfincr.Model, matModifiedAfter);
-                            }
-                        }
-                    }, svfincr.Model);
-
-                    svfdiff.SaveToFolder(diffModelPath, true);
-                    svfdiff.Dispose();
-
-                    svfbase.Dispose();
-                    svfincr.Dispose();
-
-                    ProgressHelper.Close();
-                    var message = $@"Generate Diff Model Success! (duration: {sw.Elapsed})";
-                    MessageBox.Show(this, message, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LicenseSession.ShowLicenseDialog(this);
+                    return;
                 }
-                catch (Exception ex)
+
+                using (new ProgressHelper(this, @"Generating Diff Model ..."))
                 {
-                    ProgressHelper.Close();
-                    MessageBox.Show(this, ex.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    try
+                    {
+                        var sw = Stopwatch.StartNew();
+
+                        #region setup materials
+
+                        var matUnmodified = new Material
+                        {
+                            Color = Vector3D.FromColor(0xffffff), //Darker: Vector3D.FromColor(0x101010)
+                            Transparent = 0.95,
+                            Reflectivity = 0
+                        };
+
+                        var matAdd = new Material
+                        {
+                            Color = Vector3D.FromColor(Color.GreenYellow)
+                        };
+
+                        var matDelete = new Material
+                        {
+                            Color = Vector3D.FromColor(Color.Red)
+                        };
+
+                        var matModifiedBefore = new Material
+                        {
+                            Color = Vector3D.FromColor(Color.Orange),
+                            Transparent = 0.5
+                        };
+
+                        var matModifiedAfter = new Material
+                        {
+                            Color = Vector3D.FromColor(Color.Aqua),
+                        };
+
+                        #endregion
+
+                        var baseModelPath = txtBaseModel.Text;
+                        var incrModelPath = txtIncrementModel.Text;
+                        var diffModelPath = txtDiffModel.Text;
+
+                        var svfbase = baseModelPath.EndsWith(@"zip")
+                            ? SvfDocument.LoadFromZipFile(baseModelPath)
+                            : SvfDocument.LoadFromSvfFile(baseModelPath);
+
+                        var svfincr = incrModelPath.EndsWith(@"zip")
+                            ? SvfDocument.LoadFromZipFile(incrModelPath)
+                            : SvfDocument.LoadFromSvfFile(incrModelPath);
+
+                        var compareResult = CompareModel(svfbase, svfincr);
+
+                        var svfdiff = new SvfDocument();
+                        svfdiff.Model.Name = @"Diff Model";
+                        svfdiff.Metadata = svfbase.Metadata;
+
+                        var nodeUnmodified = svfdiff.Model.Children.CreateNode();
+                        nodeUnmodified.Name = @"Unmodified";
+
+                        var nodeAdded = svfdiff.Model.Children.CreateNode();
+                        nodeAdded.Name = @"Added";
+
+                        var nodeDeleted = svfdiff.Model.Children.CreateNode();
+                        nodeDeleted.Name = @"Deleted";
+
+                        var nodeModifiedBefore = svfdiff.Model.Children.CreateNode();
+                        nodeModifiedBefore.Name = @"Modified Before";
+
+                        var nodeModifiedAfter = svfdiff.Model.Children.CreateNode();
+                        nodeModifiedAfter.Name = @"Modified After";
+
+                        svfbase.EnumerateNodes(node =>
+                        {
+                            if (node.Children?.Count == 0 &&
+                                node.Fragments?.Count > 0 &&
+                                string.IsNullOrEmpty(node.ExternalId) == false)
+                            {
+                                if (compareResult.Unmodified.Remove(node.ExternalId))
+                                {
+                                    ImportNodeWithPath(nodeUnmodified, node, svfbase.Model, matUnmodified);
+                                }
+                                else if (compareResult.Deleted.Remove(node.ExternalId))
+                                {
+                                    ImportNodeWithPath(nodeDeleted, node, svfbase.Model, matDelete);
+                                }
+                                else if (compareResult.Modified.Contains(node.ExternalId))
+                                {
+                                    var targetNode =
+                                        ImportNodeWithPath(nodeModifiedBefore, node, svfbase.Model, matModifiedBefore);
+                                    targetNode.ExternalId += @"_Before";
+                                }
+                            }
+                        }, svfbase.Model);
+
+                        svfincr.EnumerateNodes(node =>
+                        {
+                            if (node.Children?.Count == 0 &&
+                                node.Fragments?.Count > 0 &&
+                                string.IsNullOrEmpty(node.ExternalId) == false)
+                            {
+                                if (compareResult.Added.Remove(node.ExternalId))
+                                {
+                                    ImportNodeWithPath(nodeAdded, node, svfincr.Model, matAdd);
+                                }
+                                else if (compareResult.Modified.Remove(node.ExternalId))
+                                {
+                                    ImportNodeWithPath(nodeModifiedAfter, node, svfincr.Model, matModifiedAfter);
+                                }
+                            }
+                        }, svfincr.Model);
+
+                        svfdiff.SaveToFolder(diffModelPath, true);
+                        svfdiff.Dispose();
+
+                        svfbase.Dispose();
+                        svfincr.Dispose();
+
+                        ProgressHelper.Close();
+                        var message = $@"Generate Diff Model Success! (duration: {sw.Elapsed})";
+                        MessageBox.Show(this, message, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        ProgressHelper.Close();
+                        MessageBox.Show(this, ex.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
         }

@@ -39,7 +39,7 @@ namespace Bimangle.ForgeAuthor.Inspector
         private void FormApp_Load(object sender, EventArgs e)
         {
             Icon = Properties.Resources.app;
-            Text = $@"{_SvfFilePath} - {Text} v1.0";
+            Text = $@"{_SvfFilePath} - {Text} v{PackageInfo.ProductVersion}";
 
             tvModel.Nodes.Clear();
             var treeNode = LoadNode(tvModel.Nodes, _SvfDb, _SvfDb.Model, 0);
@@ -86,12 +86,21 @@ namespace Bimangle.ForgeAuthor.Inspector
         {
             try
             {
-                using (new ProgressHelper("Saving ..."))
+                using (var session = new LicenseSession())
                 {
-                    _SvfDb.Save();
-                }
+                    if (session.IsValid == false)
+                    {
+                        LicenseSession.ShowLicenseDialog(this);
+                        return;
+                    }
 
-                MessageBox.Show(this, @"Save Success!", Text);
+                    using (new ProgressHelper(this, "Saving ..."))
+                    {
+                        _SvfDb.Save();
+                    }
+
+                    MessageBox.Show(this, @"Save Success!", Text);
+                }
             }
             catch (Exception ex)
             {
@@ -115,7 +124,6 @@ namespace Bimangle.ForgeAuthor.Inspector
             {
                 _CurrentSvfNode.Name = txtName.Text;
             }
-
         }
 
         private void txtCategory_TextChanged(object sender, EventArgs e)
@@ -141,17 +149,7 @@ namespace Bimangle.ForgeAuthor.Inspector
 
         private void tsmiLicenseStatus_Click(object sender, EventArgs e)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine(@"Bimangle.ForgeAuthor SDK License Status:");
-            sb.AppendLine($@"ReleaseDate:  {PackageInfo.ReleaseDate:yyyy-MM-dd}");
-            sb.AppendLine($@"Subscription: {LicenseService.SubscriptionExpiration:yyyy-MM-dd}");
-            sb.AppendLine($@"IsActivated:       {LicenseService.IsActivated}");
-            sb.AppendLine($@"LicenseStatus:     {LicenseService.LicenseStatus}");
-            sb.AppendLine($@"LicenseExpiration: {LicenseService.LicenseExpiration:yyyy-MM-dd}");
-            sb.AppendLine($@"HardwareId:   {LicenseService.HardwareId}");
-            sb.AppendLine($@"ClientName:   {LicenseService.ClientName}");
-
-            MessageBox.Show(this, sb.ToString(), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LicenseSession.ShowLicenseDialog(this);
         }
 
         private void tsmiExportJson_Click(object sender, EventArgs e)
@@ -161,7 +159,7 @@ namespace Bimangle.ForgeAuthor.Inspector
                 if (sfdExportToJson.ShowDialog(this) != DialogResult.OK) return;
                 var filePath = sfdExportToJson.FileName;
 
-                using (new ProgressHelper("Exporting ..."))
+                using (new ProgressHelper(this, "Exporting ..."))
                 {
                     var data = new JArray();
                     foreach (var node in _SvfDb)

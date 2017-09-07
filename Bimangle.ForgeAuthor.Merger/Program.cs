@@ -16,13 +16,6 @@ namespace Bimangle.ForgeAuthor.Merger
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            var clientId = Properties.Settings.Default.ClientId;
-            if (string.IsNullOrWhiteSpace(clientId) == false)
-            {
-                LicenseService.Activate(clientId, @"Merger");
-            }
-
             Application.Run(new FormApp());
         }
     }

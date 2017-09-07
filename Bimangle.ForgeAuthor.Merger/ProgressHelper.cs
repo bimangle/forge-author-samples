@@ -14,11 +14,13 @@ namespace Bimangle.ForgeAuthor.Merger
 
         private FormProgress _Form;
 
-        public ProgressHelper(string title = null)
+        public ProgressHelper(IWin32Window owner = null, string title = null)
         {
             _Form = new FormProgress(title);
-            _Form.StartPosition = FormStartPosition.CenterScreen;
-            _Form.Show();
+            _Form.StartPosition = owner == null
+                ? FormStartPosition.CenterScreen
+                : FormStartPosition.CenterParent;
+            _Form.Show(owner);
             _Form.Refresh();
 
             _Instance = this;

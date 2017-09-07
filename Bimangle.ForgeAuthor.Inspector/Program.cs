@@ -20,12 +20,6 @@ namespace Bimangle.ForgeAuthor.Inspector
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var clientId = Properties.Settings.Default.ClientId;
-            if (string.IsNullOrWhiteSpace(clientId) == false)
-            {
-                LicenseService.Activate(clientId, @"Inspector");
-            }
-
             string filePath;
 
             if (args.Length > 0)
@@ -46,7 +40,7 @@ namespace Bimangle.ForgeAuthor.Inspector
 
             try
             {
-                using (new ProgressHelper(@"Loading ..."))
+                using (new ProgressHelper(null, @"Loading ..."))
                 {
                     var svf = filePath.EndsWith(@"zip")
                         ? SvfDatabase.LoadFromZipFile(filePath)

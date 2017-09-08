@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Bimangle.ForgeAuthor.Differ
 {
-    public class ProgressHelper : IDisposable
+    class ProgressHelper : IDisposable
     {
         private static ProgressHelper _Instance;
 

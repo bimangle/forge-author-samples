@@ -16,7 +16,7 @@ using Bimangle.ForgeEngine.Types.Misc;
 
 namespace Bimangle.ForgeAuthor.Differ
 {
-    public partial class FormApp : Form
+    partial class FormApp : Form
     {
         public FormApp()
         {

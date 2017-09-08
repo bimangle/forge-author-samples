@@ -14,7 +14,7 @@ using Bimangle.ForgeAuthor.Svf;
 
 namespace Bimangle.ForgeAuthor.Merger
 {
-    public partial class FormApp : Form
+    partial class FormApp : Form
     {
         public FormApp()
         {

@@ -259,3 +259,10 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/Bimangle.ForgeAuthor.Differ/Bimangle.ForgeAuthor.Differ.Buildin.csproj
+/Bimangle.ForgeAuthor.Differ/packages.Bimangle.ForgeAuthor.Differ.Buildin.config
+/Bimangle.ForgeAuthor.Inspector/Bimangle.ForgeAuthor.Inspector.Buildin.csproj
+/Bimangle.ForgeAuthor.Inspector/packages.Bimangle.ForgeAuthor.Inspector.Buildin.config
+/Bimangle.ForgeAuthor.Merger/Bimangle.ForgeAuthor.Merger.Buildin.csproj
+/Bimangle.ForgeAuthor.Merger/packages.Bimangle.ForgeAuthor.Merger.Buildin.config
+/Bimangle.ForgeAuthor.Samples.Buildin.sln

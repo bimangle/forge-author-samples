@@ -101,7 +101,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
+    <None Include="packages.Bimangle.ForgeAuthor.Merger.config" />
     <None Include="Properties\DataSources\Bimangle.ForgeAuthor.Merger.Types.SvfModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Bimangle.ForgeAuthor.Inspector
 {
-    public class ProgressHelper : IDisposable
+    class ProgressHelper : IDisposable
     {
         private static ProgressHelper _Instance;
 

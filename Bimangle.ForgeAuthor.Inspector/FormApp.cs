@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Bimangle.ForgeAuthor.Inspector
 {
-    public partial class FormApp : Form
+    partial class FormApp : Form
     {
         private string _SvfFilePath;
         private SvfDatabase _SvfDb;

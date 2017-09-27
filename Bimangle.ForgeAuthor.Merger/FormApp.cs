@@ -42,7 +42,7 @@ namespace Bimangle.ForgeAuthor.Merger
 
         private void licenseStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LicenseSession.ShowLicenseDialog(this);
+            App.ShowLicenseDialog(this);
         }
 
         private void githubSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -106,11 +106,11 @@ namespace Bimangle.ForgeAuthor.Merger
                 return;
             }
 
-            using (var session = new LicenseSession())
+            using (var session = App.CreateSession())
             {
                 if (session.IsValid == false)
                 {
-                    LicenseSession.ShowLicenseDialog(this);
+                    LicenseSession.ShowLicenseDialog(session, this);
                     return;
                 }
 

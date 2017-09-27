@@ -86,11 +86,11 @@ namespace Bimangle.ForgeAuthor.Inspector
         {
             try
             {
-                using (var session = new LicenseSession())
+                using (var session = App.CreateSession())
                 {
                     if (session.IsValid == false)
                     {
-                        LicenseSession.ShowLicenseDialog(this);
+                        LicenseSession.ShowLicenseDialog(session, this);
                         return;
                     }
 
@@ -149,7 +149,7 @@ namespace Bimangle.ForgeAuthor.Inspector
 
         private void tsmiLicenseStatus_Click(object sender, EventArgs e)
         {
-            LicenseSession.ShowLicenseDialog(this);
+            App.ShowLicenseDialog(this);
         }
 
         private void tsmiExportJson_Click(object sender, EventArgs e)

@@ -8,7 +8,7 @@
 
 ### 演示 1# - Inspector (完成)
 
-[已编译版本下载 (更新时间: 2017-09-08)](http://pan.baidu.com/s/1gfF0Zar)
+[已编译版本下载 (更新时间: 2017-09-29)](http://pan.baidu.com/s/1hrJTBz2)
 
 Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执行读取、显示、编辑、导出等操作；
 

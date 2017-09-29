@@ -8,7 +8,7 @@ Demonstrate how to use ForgeAuthor manipulate Autodesk Forge Svf model.
 
 ### Demo 1# - Inspector (ready)
 
-[Binary Download (Update: September 8th, 2017)](http://pan.baidu.com/s/1gfF0Zar)
+[Binary Download (Update: September 29th, 2017)](http://pan.baidu.com/s/1hrJTBz2)
 
 Inspector can read, display, modify, export and other operations on attribute data of Autodesk Forge Svf offline model.
 

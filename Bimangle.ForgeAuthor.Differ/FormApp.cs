@@ -152,7 +152,7 @@ namespace Bimangle.ForgeAuthor.Differ
                         var nodeModifiedAfter = svfdiff.Model.Children.CreateNode();
                         nodeModifiedAfter.Name = @"Modified After";
 
-                        svfbase.EnumerateNodes(node =>
+                        foreach(var node in svfbase)
                         {
                             if (node.Children?.Count == 0 &&
                                 node.Fragments?.Count > 0 &&
@@ -173,9 +173,9 @@ namespace Bimangle.ForgeAuthor.Differ
                                     targetNode.ExternalId += @"_Before";
                                 }
                             }
-                        }, svfbase.Model);
+                        }
 
-                        svfincr.EnumerateNodes(node =>
+                        foreach(var node in svfincr)
                         {
                             if (node.Children?.Count == 0 &&
                                 node.Fragments?.Count > 0 &&
@@ -190,7 +190,7 @@ namespace Bimangle.ForgeAuthor.Differ
                                     ImportNodeWithPath(nodeModifiedAfter, node, svfincr.Model, matModifiedAfter);
                                 }
                             }
-                        }, svfincr.Model);
+                        }
 
                         svfdiff.SaveToFolder(diffModelPath, true);
                         svfdiff.Dispose();
@@ -260,7 +260,7 @@ namespace Bimangle.ForgeAuthor.Differ
             CompareModel(SvfDocument svfbase, SvfDocument svfincr)
         {
             var baseNodes = new Dictionary<string, SvfNode>();
-            svfbase.EnumerateNodes(node =>
+            foreach(var node in svfbase)
             {
                 if (node.Children?.Count == 0
                     && node.Fragments?.Count > 0
@@ -268,14 +268,14 @@ namespace Bimangle.ForgeAuthor.Differ
                 {
                     baseNodes[node.ExternalId] = node;
                 }
-            }, svfbase.Model);
+            }
 
             var elementsAdded = new HashSet<string>();
             var elementsUnmodified = new HashSet<string>();
             var elementsModified = new HashSet<string>();
             var elementsDeleted = new HashSet<string>();
 
-            svfincr.EnumerateNodes(node =>
+            foreach(var node in svfincr)
             {
                 if (node.Children?.Count == 0
                     && node.Fragments?.Count > 0
@@ -299,7 +299,7 @@ namespace Bimangle.ForgeAuthor.Differ
                         elementsAdded.Add(node.ExternalId); //added
                     }
                 }
-            }, svfincr.Model);
+            }
 
             foreach (var p in baseNodes.Keys)
             {

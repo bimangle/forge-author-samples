@@ -164,6 +164,8 @@ namespace Bimangle.ForgeAuthor.Inspector
                     var data = new JArray();
                     foreach (var node in _SvfDb)
                     {
+                        if (node == null) continue;
+
                         var info = new JObject();
                         info["id"] = node.Id;
                         info["name"] = node.Name;

@@ -53,3 +53,7 @@ SvfDatabase 和 SvfDocument 最大的区别就是 SvfDatabase 只能操作属性
 ForgeAuthor 是商业软件, 但使用 SvfDatabase 执行读取和导出属性操作是完全免费的.
 
 ForgeAuthor 提供了一个 30 天的全功能评测期，评测期满后使用 SvfDatabase 执行读取和导出属性操作仍然是免费的，您可放心使用.
+
+# 如何购买授权?
+
+请联系: 13525442399 (电话或微信)

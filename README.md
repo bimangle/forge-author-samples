@@ -56,3 +56,8 @@ ForgeAuthor is commercial software, but using SvfDatabase to read and export pro
 
 ForgeAuthor provides a 30-day full-functional trial period, but the free functionality of the ForgeAuthor after the trial period is still available.
 
+# How to purchase licenses?
+
+Please contact liuyongsheng@msn.com or bimangle@aliyun.com
+
+

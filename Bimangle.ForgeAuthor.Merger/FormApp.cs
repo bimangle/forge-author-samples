@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bimangle.ForgeAuthor.Merger.Types;
 using Bimangle.ForgeAuthor.Svf;
+using Bimangle.ForgeEngine.Types.Geometry;
+using Bimangle.ForgeEngine.Types.Misc;
 
 namespace Bimangle.ForgeAuthor.Merger
 {
@@ -121,6 +123,7 @@ namespace Bimangle.ForgeAuthor.Merger
                         var sw = Stopwatch.StartNew();
                         var targetDoc = new SvfDocument();
                         var docs = new List<SvfDocument>();
+                        var init = false;
                         foreach (var model in models)
                         {
                             var doc = model.ModelPath.EndsWith(@"zip")
@@ -128,11 +131,21 @@ namespace Bimangle.ForgeAuthor.Merger
                                 : SvfDocument.LoadFromSvfFile(model.ModelPath);
                             doc.Model.Name = model.ModelTitle;
 
-                            targetDoc.Model.Children.ImportNode(doc.Model);
-
-                            if (targetDoc.Metadata?.DefaultCamera == null)
+                            if (!init)
                             {
                                 targetDoc.Metadata = doc.Metadata.Clone();
+                                init = true;
+                            }
+
+                            var unitScale = Metadata.GetUnitScale(doc.Metadata.Units, targetDoc.Metadata.Units);
+                            var transform = new Transform();
+                            transform.SetUniformScaleRotationTranslation((float)unitScale, new QuaternionF(), new Vector3D());
+
+                            targetDoc.Model.Children.ImportNode(doc.Model, transform);
+
+                            if (targetDoc.Metadata.DefaultCamera == null && doc.Metadata.DefaultCamera != null)
+                            {
+                                targetDoc.Metadata.DefaultCamera = doc.Metadata.DefaultCamera.Clone();
                             }
 
                             doc.Reset();

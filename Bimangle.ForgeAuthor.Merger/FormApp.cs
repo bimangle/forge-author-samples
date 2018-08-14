@@ -27,6 +27,13 @@ namespace Bimangle.ForgeAuthor.Merger
         {
             Icon = Properties.Resources.app;
             Text += @" v" + PackageInfo.ProductVersion;
+
+#if DEBUG
+            //for test 
+            //AddInputModel(@"E:\Temp\2018-08-01\hemo\f1\3d.svf");
+            //AddInputModel(@"E:\Temp\2018-08-01\hemo\f2\3d.svf");
+            //txtOutput.Text = @"E:\Temp\2018-08-01\output";
+#endif
         }
 
         private void btnBrowseOutput_Click(object sender, EventArgs e)
@@ -63,27 +70,7 @@ namespace Bimangle.ForgeAuthor.Merger
             {
                 foreach (var filePath in dlgSelectFile.FileNames)
                 {
-                    var svfModel = new SvfModel
-                    {
-                        ModelTitle = $@"Model {svfModelBindingSource.Count + 1}#",
-                        ModelPath = filePath
-                    };
-                    if (svfModel.ModelPath.EndsWith(@"zip"))
-                    {
-                        svfModel.ModelTitle = Path.GetFileNameWithoutExtension(svfModel.ModelPath);
-                    }
-
-                    foreach (SvfModel item in svfModelBindingSource)
-                    {
-                        if (item == null) continue;
-                        if (item.ModelPath == svfModel.ModelPath)
-                        {
-                            MessageBox.Show(this, @"This model already add to list!", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-                    }
-
-                    svfModelBindingSource.Add(svfModel);
+                    AddInputModel(filePath);
                 }
             }
         }
@@ -137,16 +124,16 @@ namespace Bimangle.ForgeAuthor.Merger
                                 init = true;
                             }
 
-                            var unitScale = Metadata.GetUnitScale(doc.Metadata.Units, targetDoc.Metadata.Units);
-                            var transform = new Transform();
-                            transform.SetUniformScaleRotationTranslation((float)unitScale, new QuaternionF(), new Vector3D());
-
-                            targetDoc.Model.Children.ImportNode(doc.Model, transform);
-
                             if (targetDoc.Metadata.DefaultCamera == null && doc.Metadata.DefaultCamera != null)
                             {
                                 targetDoc.Metadata.DefaultCamera = doc.Metadata.DefaultCamera.Clone();
                             }
+
+                            var transform = Metadata
+                                .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
+                                .Multiply(doc.Metadata.RefPointTransform);
+
+                            targetDoc.Model.Children.ImportNode(doc.Model, transform);
 
                             doc.Reset();
                             docs.Add(doc);
@@ -173,5 +160,31 @@ namespace Bimangle.ForgeAuthor.Merger
                 }
             }
         }
+
+        private void AddInputModel(string filePath)
+        {
+            var svfModel = new SvfModel
+            {
+                ModelTitle = $@"Model {svfModelBindingSource.Count + 1}#",
+                ModelPath = filePath
+            };
+            if (svfModel.ModelPath.EndsWith(@"zip"))
+            {
+                svfModel.ModelTitle = Path.GetFileNameWithoutExtension(svfModel.ModelPath);
+            }
+
+            foreach (SvfModel item in svfModelBindingSource)
+            {
+                if (item == null) continue;
+                if (item.ModelPath == svfModel.ModelPath)
+                {
+                    MessageBox.Show(this, @"This model already add to list!", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+            }
+
+            svfModelBindingSource.Add(svfModel);
+        }
+
     }
 }

@@ -28,6 +28,12 @@ namespace Bimangle.ForgeAuthor.Differ
             Icon = Properties.Resources.app;
             Text += @" v" + PackageInfo.ProductVersion;
 
+#if DEBUG
+            this.txtBaseModel.Text = @"E:\Temp\2018-08-02-b\model\r1\3d.svf";
+            this.txtIncrementModel.Text = @"E:\Temp\2018-08-02-b\model\r2\3d.svf";
+            this.txtDiffModel.Text = @"E:\Temp\2018-08-02-b\output";
+#endif
+
             RefreshState();
         }
 

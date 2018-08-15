@@ -139,6 +139,8 @@ namespace Bimangle.ForgeAuthor.Merger
                             docs.Add(doc);
                         }
 
+                        if (targetDoc.Metadata.DefaultCamera != null) targetDoc.Metadata.DefaultCamera.AutoFit = true;
+
                         targetDoc.SaveToFolder(txtOutput.Text, true);
                         targetDoc.Dispose();
 

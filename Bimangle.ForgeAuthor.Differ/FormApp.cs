@@ -29,9 +29,12 @@ namespace Bimangle.ForgeAuthor.Differ
             Text += @" v" + PackageInfo.ProductVersion;
 
 #if DEBUG
-            this.txtBaseModel.Text = @"E:\Temp\2018-08-02-b\model\r1\3d.svf";
-            this.txtIncrementModel.Text = @"E:\Temp\2018-08-02-b\model\r2\3d.svf";
-            this.txtDiffModel.Text = @"E:\Temp\2018-08-02-b\output";
+            //compare mesh's surface area, instead of primitives
+            SvfDocument.EnabledAdvancedMeshCompare = true;
+
+            this.txtBaseModel.Text = @"E:\Temp\2018-08-29\n1.svfzip";
+            this.txtIncrementModel.Text = @"E:\Temp\2018-08-29\n2.svfzip";
+            this.txtDiffModel.Text = @"E:\Temp\2018-08-29\diff2";
 #endif
 
             RefreshState();

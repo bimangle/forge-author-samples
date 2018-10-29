@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Bimangle.ForgeAuthor.Inspector
+namespace Bimangle.ForgeAuthor.ExtractBuildingShell
 {
     partial class FormProgress
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bimangle.ForgeAuthor.Merger.Properties {
+namespace Bimangle.ForgeAuthor.ConvertSvfToGltf.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

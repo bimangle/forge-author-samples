@@ -37,6 +37,15 @@ Differ 演示了如何对同一个模型的不同版本执行比较操作，然�
 
 ![Differ Snapshot](docs/images/differ2.png) 
 
+### Demo 4# - ExtractBuildingShell (ready)
+
+抽取一个建筑外壳并另存为新的 SVF 模型；
+
+### Demo 5# - ExtractBuildingShell (ready)
+
+转换一个 *.svf/*.svfzip 模型到 glTF/glb 格式;
+
+
 ### 更多的演示例子会不断加入 ...
 
 ----

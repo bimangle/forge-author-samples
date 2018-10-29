@@ -55,7 +55,7 @@ namespace Bimangle.ForgeAuthor.Merger
             this.Name = "FormProgress";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Progress";
             this.TopMost = true;
             this.panel1.ResumeLayout(false);

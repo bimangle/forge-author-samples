@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bimangle.ForgeAuthor.Merger
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bimangle.ForgeAuthor.Differ", "Bimangle.ForgeAuthor.Differ\Bimangle.ForgeAuthor.Differ.csproj", "{DA63E60D-8FAB-43D0-AE98-65896EC49DC1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bimangle.ForgeAuthor.ConvertSvfToGltf", "Bimangle.ForgeAuthor.ConvertSvfToGltf\Bimangle.ForgeAuthor.ConvertSvfToGltf.csproj", "{C1D6C5E8-D7A9-4A81-92C1-57BD04D77056}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bimangle.ForgeAuthor.ExtractBuildingShell", "Bimangle.ForgeAuthor.ExtractBuildingShell\Bimangle.ForgeAuthor.ExtractBuildingShell.csproj", "{9B7D9564-9756-4F86-AB70-0B73543C6F9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{DA63E60D-8FAB-43D0-AE98-65896EC49DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA63E60D-8FAB-43D0-AE98-65896EC49DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA63E60D-8FAB-43D0-AE98-65896EC49DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1D6C5E8-D7A9-4A81-92C1-57BD04D77056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1D6C5E8-D7A9-4A81-92C1-57BD04D77056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1D6C5E8-D7A9-4A81-92C1-57BD04D77056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1D6C5E8-D7A9-4A81-92C1-57BD04D77056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B7D9564-9756-4F86-AB70-0B73543C6F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B7D9564-9756-4F86-AB70-0B73543C6F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B7D9564-9756-4F86-AB70-0B73543C6F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B7D9564-9756-4F86-AB70-0B73543C6F9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

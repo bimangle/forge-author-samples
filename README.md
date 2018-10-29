@@ -39,6 +39,15 @@ Differ can compare different versions of the same model, recognize the differenc
 
 ![Differ Snapshot](docs/images/differ2.png) 
 
+### Demo 4# - ExtractBuildingShell (ready)
+
+Extract a building's shell and save as a new svf model;
+
+### Demo 5# - ExtractBuildingShell (ready)
+
+Convert a *.svf/*.svfzip model to glTF/glb model;
+
+
 ### more demos will coming soon ...
 
 ----

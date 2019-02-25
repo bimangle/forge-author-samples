@@ -38,7 +38,7 @@ namespace Bimangle.ForgeAuthor.ConvertSvfToGltf
 
         private void licenseStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowLicenseDialog(this);
+            LicenseConfig.ShowDialog(this);
         }
 
         private void githubSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -78,11 +78,11 @@ namespace Bimangle.ForgeAuthor.ConvertSvfToGltf
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            using (var session = App.CreateSession())
+            using (var session = LicenseConfig.Create())
             {
                 if (session.IsValid == false)
                 {
-                    LicenseSession.ShowLicenseDialog(session, this);
+                    LicenseConfig.ShowDialog(session, this);
                     return;
                 }
 

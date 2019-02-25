@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using Bimangle.ForgeAuthor.Extension.Gltf;
 using Bimangle.ForgeAuthor.Svf;
 using Bimangle.ForgeEngine.Common.Utils;
 
@@ -30,7 +29,7 @@ namespace Bimangle.ForgeAuthor.ExtractBuildingShell
 
         private void licenseStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            App.ShowLicenseDialog(this);
+            LicenseConfig.ShowDialog(this);
         }
 
         private void githubSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,11 +61,11 @@ namespace Bimangle.ForgeAuthor.ExtractBuildingShell
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            using (var session = App.CreateSession())
+            using (var session = LicenseConfig.Create())
             {
                 if (session.IsValid == false)
                 {
-                    LicenseSession.ShowLicenseDialog(session, this);
+                    LicenseConfig.ShowDialog(session, this);
                     return;
                 }
 

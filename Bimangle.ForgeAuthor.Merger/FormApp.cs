@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bimangle.ForgeAuthor.Merger.Types;
 using Bimangle.ForgeAuthor.Svf;
+using Bimangle.ForgeBrowser.Author.Merger.Types;
 using Bimangle.ForgeEngine.Types.Geometry;
 using Bimangle.ForgeEngine.Types.Misc;
 
@@ -34,6 +35,13 @@ namespace Bimangle.ForgeAuthor.Merger
             //AddInputModel(@"E:\Temp\2018-08-01\hemo\f2\3d.svf");
             //txtOutput.Text = @"E:\Temp\2018-08-01\output";
 #endif
+
+            cbPositioningMode.Items.Clear();
+            cbPositioningMode.Items.Add(new ItemValue<PositioningMode>(PositioningMode.BySharedCoordinates, @"Auto - By Shared Coordinates"));
+            cbPositioningMode.Items.Add(new ItemValue<PositioningMode>(PositioningMode.OriginToOrigin, @"Auto - Origin to Origin"));
+            cbPositioningMode.Items.Add(new ItemValue<PositioningMode>(PositioningMode.ProjectBasePointToProjectBasePoint, @"Auto - Project Base Point to Project Base Point"));
+            cbPositioningMode.Items.Add(new ItemValue<PositioningMode>(PositioningMode.CenterToCenter, @"Auto - Center to Center"));
+            cbPositioningMode.SelectedIndex = 0;
         }
 
         private void btnBrowseOutput_Click(object sender, EventArgs e)
@@ -95,6 +103,8 @@ namespace Bimangle.ForgeAuthor.Merger
                 return;
             }
 
+            var mode = (int)((cbPositioningMode.SelectedItem as ItemValue<PositioningMode>)?.Value ?? PositioningMode.BySharedCoordinates);
+
             using (var session = LicenseConfig.Create())
             {
                 if (session.IsValid == false)
@@ -129,9 +139,51 @@ namespace Bimangle.ForgeAuthor.Merger
                                 targetDoc.Metadata.DefaultCamera = doc.Metadata.DefaultCamera.Clone();
                             }
 
-                            var transform = Metadata
-                                .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
-                                .Multiply(doc.Metadata.RefPointTransform);
+                            Transform transform;
+                            switch (mode)
+                            {
+                                case 1: //原点对原点
+                                    {
+                                        transform = Metadata
+                                            .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units);
+                                        break;
+                                    }
+                                case 2: //项目基点对项目基点
+                                    {
+                                        transform = Metadata
+                                            .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
+                                            .Multiply(doc.Metadata.PrjPointTransform);
+                                        break;
+                                    }
+                                case 3: //中心对中心
+                                    {
+                                        var box = doc.Metadata.WorldBoundingBox;
+                                        if (box == null || box.Empty())
+                                        {
+                                            transform = Metadata
+                                                .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units);
+                                        }
+                                        else
+                                        {
+                                            var offset = new Vector3D();
+                                            offset.X = -(box.Max.X + box.Min.X) / 2;
+                                            offset.Y = -(box.Max.Y + box.Min.Y) / 2;
+                                            offset.Z = -(box.Max.Z + box.Min.Z) / 2;
+                                            transform = Metadata
+                                                .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
+                                                .Multiply(Transform.GetTranslation(offset));
+                                        }
+                                        break;
+                                    }
+                                case 0: //通过共享坐标
+                                default:
+                                    {
+                                        transform = Metadata
+                                            .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
+                                            .Multiply(doc.Metadata.RefPointTransform);
+                                        break;
+                                    }
+                            }
 
                             targetDoc.Model.Children.ImportNode(doc.Model, transform);
 
@@ -186,6 +238,27 @@ namespace Bimangle.ForgeAuthor.Merger
             }
 
             svfModelBindingSource.Add(svfModel);
+        }
+
+        private class ItemValue<T>
+        {
+            public T Value { get; }
+            public string Text { get; }
+
+            public ItemValue(T value, string text)
+            {
+                Value = value;
+                Text = text;
+            }
+
+            #region Overrides of Object
+
+            public override string ToString()
+            {
+                return Text;
+            }
+
+            #endregion
         }
 
     }

@@ -8,7 +8,6 @@ Demonstrate how to use ForgeAuthor manipulate Autodesk Forge Svf model.
 
 ### Demo 1# - Inspector (ready)
 
-[Binary Download (Update: October 23th, 2017)](https://pan.baidu.com/s/1gfxS5gB)
 
 Inspector can read, display, modify, export and other operations on attribute data of Autodesk Forge Svf offline model.
 
@@ -16,8 +15,6 @@ Inspector can read, display, modify, export and other operations on attribute da
 
 
 ### Demo 2# - Merger (ready)
-
-[Binary Download (Update: October 23th, 2017)](https://pan.baidu.com/s/1cMzotw)
 
 Merger can merge multiple Autodesk Forge Svf offline models to one.
 
@@ -28,9 +25,6 @@ Merger can merge multiple Autodesk Forge Svf offline models to one.
 
 ### Demo 3# - Differ (ready)
 
-[Binary Download (Update: October 23th, 2017)](https://pan.baidu.com/s/1kVehCd5)
-
-
 Differ can compare different versions of the same model, recognize the difference component, generate the diff model, and use different colors to identify the components that are added, deleted, and modified.
 
 >When you recommend browsing the difference model, turn off the "Ambient shadows" and "Ground shadow" feature to get the best visual effect
@@ -39,11 +33,13 @@ Differ can compare different versions of the same model, recognize the differenc
 
 ![Differ Snapshot](docs/images/differ2.png) 
 
+
 ### Demo 4# - ExtractBuildingShell (ready)
 
 Extract a building's shell and save as a new svf model;
 
-### Demo 5# - ExtractBuildingShell (ready)
+
+### Demo 5# - ConvertSvfToGltf (ready)
 
 Convert a *.svf/*.svfzip model to glTF/glb model;
 

@@ -8,7 +8,6 @@
 
 ### 演示 1# - Inspector (完成)
 
-[已编译版本下载 (更新时间: 2017-10-23)](https://pan.baidu.com/s/1gfxS5gB)
 
 Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执行读取、显示、编辑、导出等操作；
 
@@ -17,7 +16,6 @@ Inspector 演示了如何对 Autodesk Forge Svf 离线模型的属性数据执�
 
 ### 演示 2# - Merger (完成)
 
-[已编译版本下载 (更新时间: 2017-10-23)](https://pan.baidu.com/s/1cMzotw)
 
 Merger 演示了如何执行合模操作，即将多个 Autodesk Forge Svf 离线模型合并为一个.
 
@@ -25,9 +23,8 @@ Merger 演示了如何执行合模操作，即将多个 Autodesk Forge Svf 离�
 
 ![Merger Snapshot](docs/images/merger2.png) 
 
-### 演示 3# - Differ (完成)
 
-[已编译版本下载 (更新时间: 2017-10-23)](https://pan.baidu.com/s/1kVehCd5)
+### 演示 3# - Differ (完成)
 
 Differ 演示了如何对同一个模型的不同版本执行比较操作，然后将差异部分另存为一个差异模型，这个差异模型用不同的颜色表达增加、删除和修改状态的构件.
 
@@ -37,11 +34,13 @@ Differ 演示了如何对同一个模型的不同版本执行比较操作，然�
 
 ![Differ Snapshot](docs/images/differ2.png) 
 
+
 ### Demo 4# - ExtractBuildingShell (ready)
 
 抽取一个建筑外壳并另存为新的 SVF 模型；
 
-### Demo 5# - ExtractBuildingShell (ready)
+
+### Demo 5# - ConvertSvfToGltf (ready)
 
 转换一个 *.svf/*.svfzip 模型到 glTF/glb 格式;
 

@@ -47,6 +47,8 @@
             this.githubSourceCodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutForgeAuthorMergerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbPositioningMode = new System.Windows.Forms.ComboBox();
+            this.lblPositioningMode = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSourceModels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.svfModelBindingSource)).BeginInit();
@@ -59,6 +61,8 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.cbPositioningMode);
+            this.groupBox1.Controls.Add(this.lblPositioningMode);
             this.groupBox1.Controls.Add(this.btnAdd);
             this.groupBox1.Controls.Add(this.dgvSourceModels);
             this.groupBox1.Location = new System.Drawing.Point(12, 30);
@@ -226,6 +230,24 @@
             this.aboutForgeAuthorMergerToolStripMenuItem.Text = "About ForgeAuthor Merger";
             this.aboutForgeAuthorMergerToolStripMenuItem.Click += new System.EventHandler(this.aboutForgeAuthorMergerToolStripMenuItem_Click);
             // 
+            // cbPositioningMode
+            // 
+            this.cbPositioningMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPositioningMode.FormattingEnabled = true;
+            this.cbPositioningMode.Location = new System.Drawing.Point(244, 163);
+            this.cbPositioningMode.Name = "cbPositioningMode";
+            this.cbPositioningMode.Size = new System.Drawing.Size(331, 20);
+            this.cbPositioningMode.TabIndex = 5;
+            // 
+            // lblPositioningMode
+            // 
+            this.lblPositioningMode.AutoSize = true;
+            this.lblPositioningMode.Location = new System.Drawing.Point(131, 166);
+            this.lblPositioningMode.Name = "lblPositioningMode";
+            this.lblPositioningMode.Size = new System.Drawing.Size(107, 12);
+            this.lblPositioningMode.TabIndex = 4;
+            this.lblPositioningMode.Text = "Positioning Mode:";
+            // 
             // FormApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -240,6 +262,7 @@
             this.Text = "ForgeAuthor Merger";
             this.Load += new System.EventHandler(this.FormApp_Load);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSourceModels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.svfModelBindingSource)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -271,6 +294,8 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.DataGridViewTextBoxColumn modelTitleDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn modelPathDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ComboBox cbPositioningMode;
+        private System.Windows.Forms.Label lblPositioningMode;
     }
 }
 

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bimangle.ForgeAuthor.Merger.Types;
+using Bimangle.ForgeAuthor.Merger.Utility;
 using Bimangle.ForgeAuthor.Svf;
 using Bimangle.ForgeBrowser.Author.Merger.Types;
 using Bimangle.ForgeEngine.Types.Geometry;
@@ -42,6 +43,10 @@ namespace Bimangle.ForgeAuthor.Merger
             cbPositioningMode.Items.Add(new ItemValue<PositioningMode>(PositioningMode.ProjectBasePointToProjectBasePoint, @"Auto - Project Base Point to Project Base Point"));
             cbPositioningMode.Items.Add(new ItemValue<PositioningMode>(PositioningMode.CenterToCenter, @"Auto - Center to Center"));
             cbPositioningMode.SelectedIndex = 0;
+
+            dgvSourceModels.EnableFilePathDrop(AddInputModel);
+
+            txtOutput.EnableFolderPathDrop();
         }
 
         private void btnBrowseOutput_Click(object sender, EventArgs e)
@@ -118,9 +123,10 @@ namespace Bimangle.ForgeAuthor.Merger
                     try
                     {
                         var sw = Stopwatch.StartNew();
-                        var targetDoc = new SvfDocument();
+                        SvfDocument targetDoc = null;
+                        Transform targetTransform = null;
+
                         var docs = new List<SvfDocument>();
-                        var init = false;
                         foreach (var model in models)
                         {
                             var doc = model.ModelPath.EndsWith(@"zip")
@@ -128,10 +134,9 @@ namespace Bimangle.ForgeAuthor.Merger
                                 : SvfDocument.LoadFromSvfFile(model.ModelPath);
                             doc.Model.Name = model.ModelTitle;
 
-                            if (!init)
+                            if (targetDoc == null)
                             {
-                                targetDoc.Metadata = doc.Metadata.Clone();
-                                init = true;
+                                targetDoc = CreateTarget(doc, mode, out targetTransform);
                             }
 
                             if (targetDoc.Metadata.DefaultCamera == null && doc.Metadata.DefaultCamera != null)
@@ -139,50 +144,40 @@ namespace Bimangle.ForgeAuthor.Merger
                                 targetDoc.Metadata.DefaultCamera = doc.Metadata.DefaultCamera.Clone();
                             }
 
-                            Transform transform;
+                            var transform = targetTransform
+                                .Clone()
+                                .Multiply(Metadata.GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units));    //计量单位的转换
                             switch (mode)
                             {
                                 case 1: //原点对原点
-                                    {
-                                        transform = Metadata
-                                            .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units);
-                                        break;
-                                    }
+                                {
+                                    break;
+                                }
                                 case 2: //项目基点对项目基点
-                                    {
-                                        transform = Metadata
-                                            .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
-                                            .Multiply(doc.Metadata.PrjPointTransform);
-                                        break;
-                                    }
+                                {
+                                    transform = transform.Multiply(doc.Metadata.PrjPointTransform);
+                                    break;
+                                }
                                 case 3: //中心对中心
+                                {
+                                    var box = doc.Metadata.WorldBoundingBox;
+                                    if (box != null && !box.IsEmpty())
                                     {
-                                        var box = doc.Metadata.WorldBoundingBox;
-                                        if (box == null || box.Empty())
-                                        {
-                                            transform = Metadata
-                                                .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units);
-                                        }
-                                        else
-                                        {
-                                            var offset = new Vector3D();
-                                            offset.X = -(box.Max.X + box.Min.X) / 2;
-                                            offset.Y = -(box.Max.Y + box.Min.Y) / 2;
-                                            offset.Z = -(box.Max.Z + box.Min.Z) / 2;
-                                            transform = Metadata
-                                                .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
-                                                .Multiply(Transform.GetTranslation(offset));
-                                        }
-                                        break;
+                                        var offset = new Vector3D();
+                                        offset.X = -(box.Max.X + box.Min.X) / 2;
+                                        offset.Y = -(box.Max.Y + box.Min.Y) / 2;
+                                        offset.Z = -(box.Max.Z + box.Min.Z) / 2;
+                                        var translation = Transform.GetTranslation(offset);
+                                        transform = transform.Multiply(translation);
                                     }
+                                    break;
+                                }
                                 case 0: //通过共享坐标
                                 default:
-                                    {
-                                        transform = Metadata
-                                            .GetUnitScaleTransform(doc.Metadata.Units, targetDoc.Metadata.Units)
-                                            .Multiply(doc.Metadata.RefPointTransform);
-                                        break;
-                                    }
+                                {
+                                    transform = transform.Multiply(doc.Metadata.RefPointTransform);
+                                    break;
+                                }
                             }
 
                             targetDoc.Model.Children.ImportNode(doc.Model, transform);
@@ -214,6 +209,75 @@ namespace Bimangle.ForgeAuthor.Merger
                 }
             }
         }
+
+        private SvfDocument CreateTarget(SvfDocument initDoc, int mode, out Transform targetTransform)
+        {
+            targetTransform = Transform.GetIdentity();
+
+            var doc = new SvfDocument();
+            var meta = doc.Metadata = initDoc.Metadata.Clone(true);
+
+            #region 整理转换矩阵元数据
+
+            if (meta.RefPointTransform == null)
+            {
+                if (meta.RefPointLMV != null && meta.AngleToTrueNorth.HasValue)
+                {
+                    var angle = meta.AngleToTrueNorth.Value * Math.PI / 180.0;
+                    var rotation = new QuaternionD().SetFromEuler(new EulerD(0.0, 0.0, angle));
+                    meta.RefPointTransform = Transform.GetRotationTranslation(rotation, meta.RefPointLMV);
+                }
+                else
+                {
+                    meta.RefPointTransform = Transform.GetIdentity();
+                }
+            }
+            if (meta.PrjPointTransform == null)
+            {
+                meta.PrjPointTransform = Transform.GetIdentity();
+            }
+
+            #endregion
+
+            switch (mode)
+            {
+                case 1: //原点对原点
+                    {
+                        //合模时使用原始内部坐标系，直接使用即可;
+                        break;
+                    }
+                case 2: //项目基点对项目基点
+                    {
+                        //合模时使用项目坐标系，最后结果需要转换为内部坐标系
+                        targetTransform = meta.PrjPointTransform.Inverse() ?? Transform.GetIdentity();
+                        break;
+                    }
+                case 3: //中心对中心
+                    {
+                        //合模时使用内部坐标系，但因为原点做了偏移，最后结果需要修正回来;
+                        var box = doc.Metadata.WorldBoundingBox;
+                        if (box != null && !box.IsEmpty())
+                        {
+                            var offset = new Vector3D();
+                            offset.X = -(box.Max.X + box.Min.X) / 2;
+                            offset.Y = -(box.Max.Y + box.Min.Y) / 2;
+                            offset.Z = -(box.Max.Z + box.Min.Z) / 2;
+                            targetTransform = Transform.GetTranslation(offset.MultiplyScalar(-1));
+                        }
+                        break;
+                    }
+                case 0: //通过共享坐标
+                default:
+                    {
+                        //合模时使用共享坐标系，最后结果需要转换为内部坐标系
+                        targetTransform = meta.RefPointTransform.Inverse() ?? Transform.GetIdentity();
+                        break;
+                    }
+            }
+
+            return doc;
+        }
+
 
         private void AddInputModel(string filePath)
         {

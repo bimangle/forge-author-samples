@@ -42,10 +42,10 @@ namespace Bimangle.ForgeAuthor.Inspector
             {
                 using (new ProgressHelper(null, @"Loading ..."))
                 {
-                    var svf = filePath.EndsWith(@"zip")
-                        ? SvfDatabase.LoadFromZipFile(filePath)
-                        : SvfDatabase.LoadFromSvfFile(filePath);
-                    Application.Run(new FormApp(svf, filePath));
+                    using (var svfDb = SvfDatabase.LoadFrom(filePath))
+                    {
+                        Application.Run(new FormApp(svfDb, filePath));
+                    }
                 }
             }
             catch (Exception e)

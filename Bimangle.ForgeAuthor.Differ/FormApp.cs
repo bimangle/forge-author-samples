@@ -74,6 +74,11 @@ namespace Bimangle.ForgeAuthor.Differ
 
         private void btnBrowseDiffModel_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtDiffModel.Text) == false)
+            {
+                dlgSelectFolder.SelectedPath = txtDiffModel.Text;
+            }
+
             if (dlgSelectFolder.ShowDialog(this) == DialogResult.OK)
             {
                 txtDiffModel.Text = dlgSelectFolder.SelectedPath;
@@ -167,18 +172,18 @@ namespace Bimangle.ForgeAuthor.Differ
                                 node.Fragments?.Count > 0 &&
                                 string.IsNullOrEmpty(node.ExternalId) == false)
                             {
-                                if (compareResult.Unmodified.Remove(node.ExternalId))
+                                var nodeKey = node.GetKey();
+                                if (compareResult.Unmodified.Remove(nodeKey))
                                 {
                                     ImportNodeWithPath(nodeUnmodified, node, svfbase.Model, matUnmodified);
                                 }
-                                else if (compareResult.Deleted.Remove(node.ExternalId))
+                                else if (compareResult.Deleted.Remove(nodeKey))
                                 {
                                     ImportNodeWithPath(nodeDeleted, node, svfbase.Model, matDelete);
                                 }
-                                else if (compareResult.Modified.Contains(node.ExternalId))
+                                else if (compareResult.Modified.Contains(nodeKey))
                                 {
-                                    var targetNode =
-                                        ImportNodeWithPath(nodeModifiedBefore, node, svfbase.Model, matModifiedBefore);
+                                    var targetNode = ImportNodeWithPath(nodeModifiedBefore, node, svfbase.Model, matModifiedBefore);
                                     targetNode.ExternalId += @"_Before";
                                 }
                             }
@@ -190,11 +195,13 @@ namespace Bimangle.ForgeAuthor.Differ
                                 node.Fragments?.Count > 0 &&
                                 string.IsNullOrEmpty(node.ExternalId) == false)
                             {
-                                if (compareResult.Added.Remove(node.ExternalId))
+
+                                var nodeKey = node.GetKey();
+                                if (compareResult.Added.Remove(nodeKey))
                                 {
                                     ImportNodeWithPath(nodeAdded, node, svfincr.Model, matAdd);
                                 }
-                                else if (compareResult.Modified.Remove(node.ExternalId))
+                                else if (compareResult.Modified.Remove(nodeKey))
                                 {
                                     ImportNodeWithPath(nodeModifiedAfter, node, svfincr.Model, matModifiedAfter);
                                 }
@@ -265,47 +272,47 @@ namespace Bimangle.ForgeAuthor.Differ
             return true;
         }
 
-        private (HashSet<string> Unmodified, HashSet<string> Added, HashSet<string> Deleted, HashSet<string> Modified)
+        private (HashSet<NodeKey> Unmodified, HashSet<NodeKey> Added, HashSet<NodeKey> Deleted, HashSet<NodeKey> Modified)
             CompareModel(SvfDocument svfbase, SvfDocument svfincr)
         {
-            var baseNodes = new Dictionary<string, SvfNode>();
+            var baseNodes = new Dictionary<NodeKey, SvfNode>();
             foreach(var node in svfbase)
             {
                 if (node.Children?.Count == 0
                     && node.Fragments?.Count > 0
                     && string.IsNullOrEmpty(node.ExternalId) == false)
                 {
-                    baseNodes[node.ExternalId] = node;
+                    baseNodes[node.GetKey()] = node;
                 }
             }
 
-            var elementsAdded = new HashSet<string>();
-            var elementsUnmodified = new HashSet<string>();
-            var elementsModified = new HashSet<string>();
-            var elementsDeleted = new HashSet<string>();
-
-            foreach(var node in svfincr)
+            var elementsAdded = new HashSet<NodeKey>();
+            var elementsUnmodified = new HashSet<NodeKey>();
+            var elementsModified = new HashSet<NodeKey>();
+            var elementsDeleted = new HashSet<NodeKey>();
+            foreach (var node in svfincr)
             {
                 if (node.Children?.Count == 0
                     && node.Fragments?.Count > 0
                     && string.IsNullOrEmpty(node.ExternalId) == false)
                 {
-                    if (baseNodes.TryGetValue(node.ExternalId, out SvfNode baseNode))
+                    var nodeKey = node.GetKey();
+                    if (baseNodes.TryGetValue(nodeKey, out SvfNode baseNode))
                     {
                         if (baseNode.Fragments.Equals(node.Fragments))
                         {
-                            elementsUnmodified.Add(node.ExternalId); //unmdified
+                            elementsUnmodified.Add(nodeKey); //unmdified
                         }
                         else
                         {
-                            elementsModified.Add(node.ExternalId); //modified
+                            elementsModified.Add(nodeKey); //modified
                         }
 
-                        baseNodes.Remove(node.ExternalId);
+                        baseNodes.Remove(nodeKey);
                     }
                     else
                     {
-                        elementsAdded.Add(node.ExternalId); //added
+                        elementsAdded.Add(nodeKey); //added
                     }
                 }
             }
@@ -334,6 +341,71 @@ namespace Bimangle.ForgeAuthor.Differ
                 }
             }
             return resultNode;
+        }
+
+        private void btnSwitch_Click(object sender, EventArgs e)
+        {
+            var s = txtBaseModel.Text;
+            txtBaseModel.Text = txtIncrementModel.Text;
+            txtIncrementModel.Text = s;
+        }
+    }
+
+    class NodeKey : IEquatable<NodeKey>
+    {
+        public string ExternalId { get; }
+        public string LinkInstanceName { get; }
+
+        public NodeKey(string externalId, string linkInstanceName)
+        {
+            ExternalId = externalId;
+            LinkInstanceName = linkInstanceName;
+        }
+
+        #region Equality members
+
+        public bool Equals(NodeKey other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return ExternalId == other.ExternalId && LinkInstanceName == other.LinkInstanceName;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((NodeKey)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((ExternalId != null ? ExternalId.GetHashCode() : 0) * 397) ^ (LinkInstanceName != null ? LinkInstanceName.GetHashCode() : 0);
+            }
+        }
+
+        public static bool operator ==(NodeKey left, NodeKey right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(NodeKey left, NodeKey right)
+        {
+            return !Equals(left, right);
+        }
+
+        #endregion
+
+    }
+
+    static class NodeHelper
+    {
+        public static NodeKey GetKey(this SvfNode node)
+        {
+            return new NodeKey(node.ExternalId, node.LinkInstanceName);
         }
     }
 }

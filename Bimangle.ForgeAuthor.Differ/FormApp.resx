@@ -120,6 +120,18 @@
   <metadata name="menuMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnSwitch.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAA4AAAAWCAYAAADwza0nAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAB3RJTUUH3gwTEhk0xqroPAAAAOtJREFU
+        OE/d1D1qAlEYheGrgoWoGH8iYlxBIEg2YmfQRpug4AIEO3vBNppESwm4CQs3Yucu8p7PURh/B23EAw+X
+        b/BcZWauLmCaWOHTpoCpYo6lt9bhSwRJhGzarPrQD97xhTLG6GCXPPqI2eRcFCqW8IRfby2ihV1eoN3i
+        NvmThYoZm/ainUY4Vszh6uIEJ4unfurVxWecLX4jYZM/Kk6RtmkvNxX1sO+nqJvz6MWDm9OALhSgF1nH
+        SkepAp1RRadjgJRNXnoY4g06rK/QN9ewjTZQOWyTF11s4w8LzPCBQNFOXayhP6YLce4fntMpR9UOrgEA
+        AAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="dlgSelectFolder.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>160, 21</value>
   </metadata>

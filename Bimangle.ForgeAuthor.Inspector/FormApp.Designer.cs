@@ -29,9 +29,15 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pNodeTree = new System.Windows.Forms.Panel();
             this.tvModel = new System.Windows.Forms.TreeView();
+            this.pNodeTreeOptions = new System.Windows.Forms.Panel();
+            this.cbHideNonGeometryNodes = new System.Windows.Forms.CheckBox();
+            this.pNodeInfo = new System.Windows.Forms.Panel();
             this.pgNodeProperties = new System.Windows.Forms.PropertyGrid();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pNodeInfoEdit = new System.Windows.Forms.Panel();
+            this.cbHideInternalProperties = new System.Windows.Forms.CheckBox();
+            this.pNodeInfoOptions = new System.Windows.Forms.Panel();
             this.gpGeneralInfo = new System.Windows.Forms.GroupBox();
             this.txtExternalId = new System.Windows.Forms.TextBox();
             this.txtCategory = new System.Windows.Forms.TextBox();
@@ -43,12 +49,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiReload = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.exportPropertiesToJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExportJson = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiOrderSceneNodes = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiOrderSceneNodesReverse = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiAddNumPrefix = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiLicenseStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiGithub = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +72,11 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pNodeTree.SuspendLayout();
+            this.pNodeTreeOptions.SuspendLayout();
+            this.pNodeInfo.SuspendLayout();
+            this.pNodeInfoEdit.SuspendLayout();
+            this.pNodeInfoOptions.SuspendLayout();
             this.gpGeneralInfo.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -72,26 +89,73 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tvModel);
+            this.splitContainer1.Panel1.Controls.Add(this.pNodeTree);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.pgNodeProperties);
-            this.splitContainer1.Panel2.Controls.Add(this.panel1);
+            this.splitContainer1.Panel2.Controls.Add(this.pNodeInfo);
             this.splitContainer1.Size = new System.Drawing.Size(784, 586);
             this.splitContainer1.SplitterDistance = 260;
             this.splitContainer1.TabIndex = 1;
             // 
+            // pNodeTree
+            // 
+            this.pNodeTree.Controls.Add(this.tvModel);
+            this.pNodeTree.Controls.Add(this.pNodeTreeOptions);
+            this.pNodeTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pNodeTree.Location = new System.Drawing.Point(0, 0);
+            this.pNodeTree.Name = "pNodeTree";
+            this.pNodeTree.Size = new System.Drawing.Size(260, 586);
+            this.pNodeTree.TabIndex = 4;
+            // 
             // tvModel
             // 
+            this.tvModel.AllowDrop = true;
             this.tvModel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvModel.FullRowSelect = true;
             this.tvModel.HideSelection = false;
             this.tvModel.Location = new System.Drawing.Point(0, 0);
             this.tvModel.Name = "tvModel";
-            this.tvModel.Size = new System.Drawing.Size(260, 586);
+            this.tvModel.Size = new System.Drawing.Size(260, 557);
             this.tvModel.TabIndex = 0;
+            this.tvModel.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.tvModel_ItemDrag);
             this.tvModel.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvModel_AfterSelect);
+            this.tvModel.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvModel_DragDrop);
+            this.tvModel.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvModel_DragEnter);
+            this.tvModel.DragOver += new System.Windows.Forms.DragEventHandler(this.tvModel_DragOver);
+            // 
+            // pNodeTreeOptions
+            // 
+            this.pNodeTreeOptions.Controls.Add(this.cbHideNonGeometryNodes);
+            this.pNodeTreeOptions.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pNodeTreeOptions.Location = new System.Drawing.Point(0, 557);
+            this.pNodeTreeOptions.Name = "pNodeTreeOptions";
+            this.pNodeTreeOptions.Size = new System.Drawing.Size(260, 29);
+            this.pNodeTreeOptions.TabIndex = 2;
+            // 
+            // cbHideNonGeometryNodes
+            // 
+            this.cbHideNonGeometryNodes.AutoSize = true;
+            this.cbHideNonGeometryNodes.Checked = true;
+            this.cbHideNonGeometryNodes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbHideNonGeometryNodes.Location = new System.Drawing.Point(12, 6);
+            this.cbHideNonGeometryNodes.Name = "cbHideNonGeometryNodes";
+            this.cbHideNonGeometryNodes.Size = new System.Drawing.Size(162, 16);
+            this.cbHideNonGeometryNodes.TabIndex = 1;
+            this.cbHideNonGeometryNodes.Text = "Hide Non Geometry Nodes";
+            this.cbHideNonGeometryNodes.UseVisualStyleBackColor = true;
+            this.cbHideNonGeometryNodes.CheckedChanged += new System.EventHandler(this.cbHideNonGeometryNodes_CheckedChanged);
+            // 
+            // pNodeInfo
+            // 
+            this.pNodeInfo.Controls.Add(this.pgNodeProperties);
+            this.pNodeInfo.Controls.Add(this.pNodeInfoEdit);
+            this.pNodeInfo.Controls.Add(this.pNodeInfoOptions);
+            this.pNodeInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pNodeInfo.Location = new System.Drawing.Point(0, 0);
+            this.pNodeInfo.Name = "pNodeInfo";
+            this.pNodeInfo.Size = new System.Drawing.Size(520, 586);
+            this.pNodeInfo.TabIndex = 5;
             // 
             // pgNodeProperties
             // 
@@ -99,18 +163,40 @@
             this.pgNodeProperties.HelpVisible = false;
             this.pgNodeProperties.Location = new System.Drawing.Point(0, 124);
             this.pgNodeProperties.Name = "pgNodeProperties";
-            this.pgNodeProperties.Size = new System.Drawing.Size(520, 462);
+            this.pgNodeProperties.Size = new System.Drawing.Size(520, 433);
             this.pgNodeProperties.TabIndex = 0;
             // 
-            // panel1
+            // pNodeInfoEdit
             // 
-            this.panel1.Controls.Add(this.gpGeneralInfo);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.panel1.Size = new System.Drawing.Size(520, 124);
-            this.panel1.TabIndex = 1;
+            this.pNodeInfoEdit.Controls.Add(this.cbHideInternalProperties);
+            this.pNodeInfoEdit.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pNodeInfoEdit.Location = new System.Drawing.Point(0, 557);
+            this.pNodeInfoEdit.Name = "pNodeInfoEdit";
+            this.pNodeInfoEdit.Size = new System.Drawing.Size(520, 29);
+            this.pNodeInfoEdit.TabIndex = 3;
+            // 
+            // cbHideInternalProperties
+            // 
+            this.cbHideInternalProperties.AutoSize = true;
+            this.cbHideInternalProperties.Checked = true;
+            this.cbHideInternalProperties.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbHideInternalProperties.Location = new System.Drawing.Point(12, 6);
+            this.cbHideInternalProperties.Name = "cbHideInternalProperties";
+            this.cbHideInternalProperties.Size = new System.Drawing.Size(168, 16);
+            this.cbHideInternalProperties.TabIndex = 1;
+            this.cbHideInternalProperties.Text = "Hide Internal Properties";
+            this.cbHideInternalProperties.UseVisualStyleBackColor = true;
+            this.cbHideInternalProperties.CheckedChanged += new System.EventHandler(this.cbHideInternalProperties_CheckedChanged);
+            // 
+            // pNodeInfoOptions
+            // 
+            this.pNodeInfoOptions.Controls.Add(this.gpGeneralInfo);
+            this.pNodeInfoOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pNodeInfoOptions.Location = new System.Drawing.Point(0, 0);
+            this.pNodeInfoOptions.Name = "pNodeInfoOptions";
+            this.pNodeInfoOptions.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
+            this.pNodeInfoOptions.Size = new System.Drawing.Size(520, 124);
+            this.pNodeInfoOptions.TabIndex = 1;
             // 
             // gpGeneralInfo
             // 
@@ -209,6 +295,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -219,6 +306,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiReload,
+            this.toolStripMenuItem5,
             this.tsmiSave,
             this.toolStripMenuItem3,
             this.exportPropertiesToJsonToolStripMenuItem,
@@ -227,6 +316,18 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
             this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // tsmiReload
+            // 
+            this.tsmiReload.Name = "tsmiReload";
+            this.tsmiReload.Size = new System.Drawing.Size(178, 22);
+            this.tsmiReload.Text = "&Reload";
+            this.tsmiReload.Click += new System.EventHandler(this.tsmiReload_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(175, 6);
             // 
             // tsmiSave
             // 
@@ -268,6 +369,43 @@
             this.tsmiExit.Size = new System.Drawing.Size(178, 22);
             this.tsmiExit.Text = "E&xit";
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiOrderSceneNodes,
+            this.tsmiOrderSceneNodesReverse,
+            this.toolStripMenuItem4,
+            this.tsmiAddNumPrefix});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 21);
+            this.editToolStripMenuItem.Text = "&Edit";
+            // 
+            // tsmiOrderSceneNodes
+            // 
+            this.tsmiOrderSceneNodes.Name = "tsmiOrderSceneNodes";
+            this.tsmiOrderSceneNodes.Size = new System.Drawing.Size(308, 22);
+            this.tsmiOrderSceneNodes.Text = "Node Ordering - By Name";
+            this.tsmiOrderSceneNodes.Click += new System.EventHandler(this.tsmiOrderSceneNodes_Click);
+            // 
+            // tsmiOrderSceneNodesReverse
+            // 
+            this.tsmiOrderSceneNodesReverse.Name = "tsmiOrderSceneNodesReverse";
+            this.tsmiOrderSceneNodesReverse.Size = new System.Drawing.Size(308, 22);
+            this.tsmiOrderSceneNodesReverse.Text = "Node Ordering - By Name Reverse";
+            this.tsmiOrderSceneNodesReverse.Click += new System.EventHandler(this.tsmiOrderSceneNodesReverse_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(305, 6);
+            // 
+            // tsmiAddNumPrefix
+            // 
+            this.tsmiAddNumPrefix.Name = "tsmiAddNumPrefix";
+            this.tsmiAddNumPrefix.Size = new System.Drawing.Size(308, 22);
+            this.tsmiAddNumPrefix.Text = "Add Number Prefix To The Node Name";
+            this.tsmiAddNumPrefix.Click += new System.EventHandler(this.tsmiAddNumPrefix_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -328,7 +466,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.pNodeTree.ResumeLayout(false);
+            this.pNodeTreeOptions.ResumeLayout(false);
+            this.pNodeTreeOptions.PerformLayout();
+            this.pNodeInfo.ResumeLayout(false);
+            this.pNodeInfoEdit.ResumeLayout(false);
+            this.pNodeInfoEdit.PerformLayout();
+            this.pNodeInfoOptions.ResumeLayout(false);
             this.gpGeneralInfo.ResumeLayout(false);
             this.gpGeneralInfo.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -342,7 +486,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView tvModel;
         private System.Windows.Forms.PropertyGrid pgNodeProperties;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox gpGeneralInfo;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -366,6 +509,20 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiExportJson;
         private System.Windows.Forms.SaveFileDialog sfdExportToJson;
         private System.Windows.Forms.ToolStripMenuItem tsmiGithub;
+        private System.Windows.Forms.ToolStripMenuItem tsmiReload;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiOrderSceneNodes;
+        private System.Windows.Forms.ToolStripMenuItem tsmiOrderSceneNodesReverse;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem tsmiAddNumPrefix;
+        private System.Windows.Forms.Panel pNodeTree;
+        private System.Windows.Forms.Panel pNodeTreeOptions;
+        private System.Windows.Forms.CheckBox cbHideNonGeometryNodes;
+        private System.Windows.Forms.Panel pNodeInfo;
+        private System.Windows.Forms.Panel pNodeInfoEdit;
+        private System.Windows.Forms.CheckBox cbHideInternalProperties;
+        private System.Windows.Forms.Panel pNodeInfoOptions;
     }
 }
 

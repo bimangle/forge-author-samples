@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormApp));
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.licenseStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +49,7 @@
             this.btnGenerate = new System.Windows.Forms.Button();
             this.dlgSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.dlgSelectFile = new System.Windows.Forms.OpenFileDialog();
+            this.btnSwitch = new System.Windows.Forms.Button();
             this.menuMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -130,6 +132,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnSwitch);
             this.groupBox1.Controls.Add(this.btnBrowseIncrementModel);
             this.groupBox1.Controls.Add(this.txtIncrementModel);
             this.groupBox1.Controls.Add(this.label4);
@@ -155,17 +158,17 @@
             // 
             // txtIncrementModel
             // 
-            this.txtIncrementModel.Location = new System.Drawing.Point(19, 91);
+            this.txtIncrementModel.Location = new System.Drawing.Point(73, 91);
             this.txtIncrementModel.Name = "txtIncrementModel";
             this.txtIncrementModel.ReadOnly = true;
-            this.txtIncrementModel.Size = new System.Drawing.Size(443, 21);
+            this.txtIncrementModel.Size = new System.Drawing.Size(389, 21);
             this.txtIncrementModel.TabIndex = 4;
             this.txtIncrementModel.TextChanged += new System.EventHandler(this.txtIncrementModel_TextChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 76);
+            this.label4.Location = new System.Drawing.Point(71, 76);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(101, 12);
             this.label4.TabIndex = 3;
@@ -183,17 +186,17 @@
             // 
             // txtBaseModel
             // 
-            this.txtBaseModel.Location = new System.Drawing.Point(19, 41);
+            this.txtBaseModel.Location = new System.Drawing.Point(73, 41);
             this.txtBaseModel.Name = "txtBaseModel";
             this.txtBaseModel.ReadOnly = true;
-            this.txtBaseModel.Size = new System.Drawing.Size(443, 21);
+            this.txtBaseModel.Size = new System.Drawing.Size(389, 21);
             this.txtBaseModel.TabIndex = 1;
             this.txtBaseModel.TextChanged += new System.EventHandler(this.txtBaseModel_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 26);
+            this.label5.Location = new System.Drawing.Point(71, 26);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 12);
             this.label5.TabIndex = 0;
@@ -231,6 +234,17 @@
             this.dlgSelectFile.Filter = "Autodesk Forge Svf Model|*.svf;*.svfzip|All Files|*.*";
             this.dlgSelectFile.Multiselect = true;
             this.dlgSelectFile.Title = "Select Source Autodesk Froge Svf Model";
+            // 
+            // btnSwitch
+            // 
+            this.btnSwitch.Image = ((System.Drawing.Image)(resources.GetObject("btnSwitch.Image")));
+            this.btnSwitch.Location = new System.Drawing.Point(19, 56);
+            this.btnSwitch.Name = "btnSwitch";
+            this.btnSwitch.Size = new System.Drawing.Size(33, 32);
+            this.btnSwitch.TabIndex = 7;
+            this.btnSwitch.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnSwitch.UseVisualStyleBackColor = true;
+            this.btnSwitch.Click += new System.EventHandler(this.btnSwitch_Click);
             // 
             // FormApp
             // 
@@ -277,6 +291,7 @@
         private System.Windows.Forms.Button btnGenerate;
         private System.Windows.Forms.FolderBrowserDialog dlgSelectFolder;
         private System.Windows.Forms.OpenFileDialog dlgSelectFile;
+        private System.Windows.Forms.Button btnSwitch;
     }
 }
 
